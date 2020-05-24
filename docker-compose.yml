@@ -1,0 +1,48 @@
+version: '3'
+services:
+  cr-nginx:
+   container_name: cr-nginx
+   image: nginx:1.13
+   restart: always
+   ports:
+   - 80:80
+   - 443:443
+   volumes:
+   - ./nginx/conf.d:/etc/nginx/conf.d
+   networks:
+   - app-network
+   depends_on:
+   - app
+ 
+  cr-mysql:
+   container_name: cr-mysql
+   image: mysql/mysql-server:5.7
+   environment:
+    MYSQL_DATABASE: christo
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_ROOT_HOST: '%'
+   ports:
+   - "3306:3306"
+   restart: always
+   networks:
+   - app-network
+  
+  app:
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    working_dir: /app
+    expose:
+      - "7070"
+    command: mvn clean spring-boot:run
+    networks:
+    - app-network
+    depends_on:
+      - cr-mysql
+      
+networks:
+  app-network:
+      
+      
+      
