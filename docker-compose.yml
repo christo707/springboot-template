@@ -13,7 +13,6 @@ services:
    - app-network
    depends_on:
    - app
- 
   cr-mysql:
    container_name: cr-mysql
    image: mysql/mysql-server:5.7
@@ -21,12 +20,13 @@ services:
     MYSQL_DATABASE: christo
     MYSQL_ROOT_PASSWORD: root
     MYSQL_ROOT_HOST: '%'
+    MYSQL_USER: 'dockeruser'
+    MYSQL_PASSWORD: 'dockeruser123$$'
    ports:
-   - "3306:3306"
+   - "33006:3306"
    restart: always
    networks:
    - app-network
-  
   app:
     restart: always
     build:

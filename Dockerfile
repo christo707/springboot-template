@@ -6,7 +6,7 @@ COPY src /build/src/
 
 WORKDIR /build/
 
-RUN mvn package
+RUN mvn -Dmaven.test.skip=true package
 
 FROM openjdk:8-jre-alpine
 
